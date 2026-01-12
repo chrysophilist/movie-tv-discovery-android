@@ -15,6 +15,7 @@ rxandroid = "3.0.2"
 koinAndroid = "4.1.1"
 navigationCompose = "2.9.6"
 coilCompose = "2.7.0"
+loggingInterceptor = "5.3.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,6 +46,8 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
