@@ -56,4 +56,24 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // Networking
+    implementation(libs.retrofit) // Retrofit Core: Handle networking
+    implementation(libs.retrofit.converter.gson) // Parse API responses
+
+    // Rx
+    implementation(libs.rxkotlin) // Provides Kotlin-specific extension functions for RxJava
+    implementation(libs.rxandroid) // For scheduling tasks on the Android Main Thread (UI thread)
+    implementation(libs.adapter.rxjava3) // Convert Retrofit calls into RxJava Observables
+
+    // Di
+    implementation(libs.koin.android) // Core Koin for Android
+    implementation(libs.koin.androidx.compose) // Koin for Compose
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // Image loading
+    implementation(libs.coil.compose)
+
 }
