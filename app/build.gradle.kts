@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -16,6 +17,20 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val watchmodeApiKey: String =
+            gradleLocalProperties(project.rootDir, providers)
+                .getProperty("WATCHMODE_API_KEY") ?: ""
+
+        require(watchmodeApiKey.isNotBlank()) {
+            "WATCHMODE_API_KEY is missing in local.properties"
+        }
+
+        buildConfigField(
+            "String",
+            "WATCHMODE_API_KEY",
+            "\"$watchmodeApiKey\""
+        )
     }
 
     buildTypes {
@@ -36,6 +51,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
