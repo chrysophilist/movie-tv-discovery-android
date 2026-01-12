@@ -1,5 +1,6 @@
 package com.prince.movietvdiscovery.di
 
+import com.prince.movietvdiscovery.BuildConfig
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 
@@ -10,7 +11,7 @@ val networkModule = module {
 
     single {
         HttpLoggingInterceptor().apply {
-            level = if (BuildC)
+            level = if (BuildConfig)
         }
     }
 }
