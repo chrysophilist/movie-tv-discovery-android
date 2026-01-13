@@ -72,12 +72,7 @@ private fun HomeScreenContent(
 
             when (uiState) {
                 is UiState.Loading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
+                    HomeScreenShimmer()
                 }
 
                 is UiState.Error -> {

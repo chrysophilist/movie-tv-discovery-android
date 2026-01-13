@@ -50,7 +50,7 @@ private fun DetailsScreenContent(
 
         is UiState.Loading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                CircularProgressIndicator()
+                DetailsScreenShimmer()
             }
         }
 
