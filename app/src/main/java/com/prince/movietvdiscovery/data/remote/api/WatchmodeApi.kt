@@ -5,6 +5,7 @@ import com.prince.movietvdiscovery.data.remote.dto.ListTitlesResponseDto
 import com.prince.movietvdiscovery.data.remote.dto.TitleDetailsDto
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WatchmodeApi {
@@ -28,7 +29,7 @@ interface WatchmodeApi {
 
     @GET("title/{title_id}/details/")
     fun getTitleDetails(
+        @Path("title_id") titleId: Int,
         @Query("apiKey") apiKey: String = BuildConfig.WATCHMODE_API_KEY,
-        @Query("titleId") titleId: Int
     ): Single<TitleDetailsDto>
 }
