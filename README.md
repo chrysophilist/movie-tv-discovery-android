@@ -1,4 +1,3 @@
-
 # 🎬 Movie & TV Show Discovery App
 
 An Android application built using **Jetpack Compose** that allows users to discover movies and TV shows using the [Watchmode API](https://api.watchmode.com/).
