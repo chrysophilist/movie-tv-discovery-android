@@ -1,6 +1,7 @@
 package com.prince.movietvdiscovery.di
 
 import com.prince.movietvdiscovery.BuildConfig
+import com.prince.movietvdiscovery.data.remote.api.WatchmodeApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -37,4 +38,7 @@ val networkModule = module {
             .build()
     }
 
+    single<WatchmodeApi> {
+        get<Retrofit>().create(WatchmodeApi::class.java)
+    }
 }
