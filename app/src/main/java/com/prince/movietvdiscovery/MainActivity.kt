@@ -15,6 +15,7 @@ import com.prince.movietvdiscovery.ui.details.DetailsScreen
 import com.prince.movietvdiscovery.ui.details.DetailsViewModel
 import com.prince.movietvdiscovery.ui.home.HomeScreen
 import com.prince.movietvdiscovery.ui.home.HomeViewModel
+import com.prince.movietvdiscovery.ui.navigation.NavApp
 import com.prince.movietvdiscovery.ui.theme.MovieTVDiscoveryTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -25,13 +26,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             MovieTVDiscoveryTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val viewModel : HomeViewModel = koinViewModel()
-                    val DetailviewModel : DetailsViewModel = koinViewModel()
-//                    HomeScreen(viewModel)
-                    DetailsScreen(
-                        3173903,
-                        DetailviewModel
-                    )
+//                    val viewModel : HomeViewModel = koinViewModel()
+//                    val DetailviewModel : DetailsViewModel = koinViewModel()
+////                    HomeScreen(viewModel)
+//                    DetailsScreen(
+//                        3173903,
+//                        DetailviewModel
+//                    )
+                    NavApp()
                 }
             }
         }
