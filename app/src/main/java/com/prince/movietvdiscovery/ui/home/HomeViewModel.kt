@@ -27,10 +27,11 @@ class HomeViewModel(
 
     private fun fetchHomeContent(){
 
-        _uiState.value = UiState.Loading
-
         repo.fetchHomeContent()
             .subscribeOn(Schedulers.io())
+            .doOnSubscribe {
+                _uiState.value = UiState.Loading
+            }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = { data ->

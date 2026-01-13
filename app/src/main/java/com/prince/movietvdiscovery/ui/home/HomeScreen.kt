@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.prince.movietvdiscovery.domain.model.HomeContent
 import com.prince.movietvdiscovery.ui.common.UiState
 import org.koin.androidx.compose.koinViewModel
@@ -34,7 +35,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
     onClick: (Int)-> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreenContent(
         uiState = uiState,

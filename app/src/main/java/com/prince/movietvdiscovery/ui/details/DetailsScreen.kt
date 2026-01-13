@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.prince.movietvdiscovery.ui.common.DetailsUiState
 import com.prince.movietvdiscovery.ui.common.UiState
@@ -31,9 +32,7 @@ fun DetailsScreen(
     viewModel: DetailsViewModel = koinViewModel()
 ) {
 
-    val uiState by viewModel.uiState.collectAsState(
-        initial = UiState.Loading
-    )
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(titleId) {
         viewModel.loadDetails(titleId)

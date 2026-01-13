@@ -20,13 +20,20 @@ class DetailsViewModel (
     val uiState: StateFlow<UiState<DetailsUiState>> = _uiState
 
     private val disposables = CompositeDisposable()
+    private var loadTitleId: Int? = null
 
     fun loadDetails(titleId: Int) {
 
-        _uiState.value = UiState.Loading
+        if (loadTitleId == titleId &&
+            _uiState.value is UiState.Success) return
+
+        loadTitleId = titleId
 
         repo.fetchTitleDetails(titleId)
             .subscribeOn(Schedulers.io())
+            .doOnSubscribe {
+                _uiState.value = UiState.Loading
+            }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = { details ->
