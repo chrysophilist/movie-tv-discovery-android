@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,16 +31,21 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = koinViewModel()
+    viewModel: HomeViewModel = koinViewModel(),
+    onClick: (Int)-> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    HomeScreenContent(uiState = uiState)
+    HomeScreenContent(
+        uiState = uiState,
+        onClick = { onClick }
+    )
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreenContent(
-    uiState: UiState<HomeContent>
+    uiState: UiState<HomeContent>,
+    onClick: (Int) -> Unit
 ) {
     val tabs = listOf("Movies", "TV Shows")
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -87,10 +93,22 @@ private fun HomeScreenContent(
 
                     when (selectedTabIndex) {
                         0 -> TitleList(
-                            titles = content.movies.map { it.title }
+                            titles = content.movies.map { movie ->
+                                TitleUiModel(
+                                    id = movie.id,
+                                    title = movie.title
+                                )
+                            },
+                            onClick = { onClick }
                         )
                         1 -> TitleList(
-                            titles = content.tvShows.map { it.title }
+                            titles = content.tvShows.map { tvshow ->
+                                TitleUiModel(
+                                    id = tvshow.id,
+                                    title = tvshow.title
+                                )
+                            },
+                            onClick = { onClick }
                         )
                     }
                 }
@@ -102,26 +120,32 @@ private fun HomeScreenContent(
 
 @Composable
 private fun TitleList(
-    titles: List<String>
+    titles: List<TitleUiModel>,
+    onClick: (Int)-> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(8.dp)
     ) {
-        items(titles.size) { index ->
-            ItemCard(title = titles[index])
+        items(titles) { item ->
+            ItemCard(
+                title = item.title,
+                onClick = { onClick(item.id) }
+            )
         }
     }
 }
 
 @Composable
 fun ItemCard(
-    title: String
+    title: String,
+    onClick: ()-> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(8.dp),
+        onClick = onClick
     ) {
         Text(
             text = title,
@@ -130,3 +154,7 @@ fun ItemCard(
         )
     }
 }
+data class TitleUiModel(
+    val id: Int,
+    val title: String
+)

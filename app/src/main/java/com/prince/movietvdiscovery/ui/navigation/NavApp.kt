@@ -29,7 +29,11 @@ fun NavApp() {
         ) {
 
             composable<Routes.HomeScreen>{
-                HomeScreen()
+                HomeScreen(
+                    onClick = { titleId ->
+                        navController.navigate(Routes.DetailsScreen(titleId))
+                    }
+                )
             }
 
             composable<Routes.DetailsScreen> { backStackEntry ->
