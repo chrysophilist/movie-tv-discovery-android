@@ -95,4 +95,7 @@ dependencies {
     // log
     implementation(libs.logging.interceptor)
 
+    // Kotlin Serialization
+    implementation(libs.kotlinx.serialization.json)
+
 }
