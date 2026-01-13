@@ -26,13 +26,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MovieTVDiscoveryTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    val viewModel : HomeViewModel = koinViewModel()
-//                    val DetailviewModel : DetailsViewModel = koinViewModel()
-////                    HomeScreen(viewModel)
-//                    DetailsScreen(
-//                        3173903,
-//                        DetailviewModel
-//                    )
+
                     NavApp()
                 }
             }

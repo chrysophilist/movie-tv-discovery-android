@@ -74,7 +74,7 @@ private fun DetailsScreenContent(
 
             when(error) {
                 is AppError.Network -> {
-                    LaunchedEffect(Unit) {
+                    LaunchedEffect(error) {
                         snackbarHostState.showSnackbar(error.message)
                     }
                     ErrorMessage(error.message)
@@ -88,7 +88,7 @@ private fun DetailsScreenContent(
                 }
 
                 else -> {
-                    LaunchedEffect(Unit) {
+                    LaunchedEffect(error) {
                         Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
                     }
                     ErrorMessage(error.message)

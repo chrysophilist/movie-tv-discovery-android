@@ -21,7 +21,7 @@ fun HomeScreenShimmer() {
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(8.dp)
     ) {
-        items(6) {   // number of shimmer items
+        items(20) {   // number of shimmer items
             ItemCardShimmer()
         }
     }
