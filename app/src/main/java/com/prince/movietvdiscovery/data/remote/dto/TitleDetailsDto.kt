@@ -7,7 +7,7 @@ data class TitleDetailsDto(
     val id: Int,
     val title: String,
 
-    @SerializedName("description")
+    @SerializedName("plot_overview")
     val plotOverview: String?,
 
     val year: Int?,

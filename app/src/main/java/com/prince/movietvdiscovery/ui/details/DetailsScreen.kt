@@ -1,6 +1,5 @@
 package com.prince.movietvdiscovery.ui.details
 
-import android.widget.Space
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -9,12 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -26,10 +23,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.prince.movietvdiscovery.domain.util.AppError
 import com.prince.movietvdiscovery.ui.common.DetailsUiState
-import com.prince.movietvdiscovery.ui.common.ErrorMessage
 import com.prince.movietvdiscovery.ui.common.RetrySection
 import com.prince.movietvdiscovery.ui.common.UiState
-import org.jetbrains.annotations.Async
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -77,21 +72,17 @@ private fun DetailsScreenContent(
                     LaunchedEffect(error) {
                         snackbarHostState.showSnackbar(error.message)
                     }
-                    ErrorMessage(error.message)
+                    RetrySection(error.message, onRetry)
                 }
 
                 is AppError.Timeout -> {
-                    RetrySection(
-                        message = error.message,
-                        onRetry = onRetry
-                    )
+                    Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+                    RetrySection(error.message, onRetry)
                 }
 
                 else -> {
-                    LaunchedEffect(error) {
-                        Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
-                    }
-                    ErrorMessage(error.message)
+                    Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+                    RetrySection(error.message, onRetry)
                 }
             }
         }
