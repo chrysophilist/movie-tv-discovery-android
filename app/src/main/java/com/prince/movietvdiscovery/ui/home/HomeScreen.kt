@@ -38,7 +38,7 @@ fun HomeScreen(
 
     HomeScreenContent(
         uiState = uiState,
-        onClick = { onClick }
+        onClick = onClick
     )
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,7 +99,7 @@ private fun HomeScreenContent(
                                     title = movie.title
                                 )
                             },
-                            onClick = { onClick }
+                            onClick = onClick
                         )
                         1 -> TitleList(
                             titles = content.tvShows.map { tvshow ->
@@ -108,7 +108,7 @@ private fun HomeScreenContent(
                                     title = tvshow.title
                                 )
                             },
-                            onClick = { onClick }
+                            onClick = onClick
                         )
                     }
                 }
