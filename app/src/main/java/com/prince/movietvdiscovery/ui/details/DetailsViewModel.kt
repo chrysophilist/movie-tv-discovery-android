@@ -2,6 +2,7 @@ package com.prince.movietvdiscovery.ui.details
 
 import androidx.lifecycle.ViewModel
 import com.prince.movietvdiscovery.domain.repository.Repository
+import com.prince.movietvdiscovery.domain.util.Result
 import com.prince.movietvdiscovery.ui.common.DetailsUiState
 import com.prince.movietvdiscovery.ui.common.UiState
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -36,16 +37,23 @@ class DetailsViewModel (
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onSuccess = { details ->
-                    _uiState.value = UiState.Success(
-                        DetailsUiState(details)
-                    )
+                onSuccess = { result ->
+                    when(result) {
+                        is Result.Success -> {
+                            _uiState.value = UiState.Success(
+                                DetailsUiState(result.data)
+                            )
+                        }
+                        is Result.Error -> {
+                            _uiState.value = UiState.Error(result.error)
+                        }
+                    }
                 },
-                onError = { error ->
-                    _uiState.value = UiState.Error(
-                        error.message ?: "Unknown Error"
-                    )
-                }
+//                onError = { error ->
+//                    _uiState.value = UiState.Error(
+//                        error.message ?: "Unknown Error"
+//                    )
+//                }
             )
             .addTo(disposables)
     }

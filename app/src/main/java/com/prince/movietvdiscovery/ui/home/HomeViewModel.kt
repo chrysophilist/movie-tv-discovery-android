@@ -3,6 +3,7 @@ package com.prince.movietvdiscovery.ui.home
 import androidx.lifecycle.ViewModel
 import com.prince.movietvdiscovery.domain.model.HomeContent
 import com.prince.movietvdiscovery.domain.repository.Repository
+import com.prince.movietvdiscovery.domain.util.Result
 import com.prince.movietvdiscovery.ui.common.UiState
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -25,7 +26,7 @@ class HomeViewModel(
         fetchHomeContent()
     }
 
-    private fun fetchHomeContent(){
+    fun fetchHomeContent(){
 
         repo.fetchHomeContent()
             .subscribeOn(Schedulers.io())
@@ -34,12 +35,19 @@ class HomeViewModel(
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onSuccess = { data ->
-                    _uiState.value = UiState.Success(data)
+                onSuccess = { result ->
+                    when(result) {
+                        is Result.Success -> {
+                            _uiState.value = UiState.Success(result.data)
+                        }
+                        is Result.Error -> {
+                            _uiState.value = UiState.Error(result.error)
+                        }
+                    }
                 },
-                onError = { error ->
-                    _uiState.value = UiState.Error(error.message ?: "Unknown Error")
-                }
+//                onError = { error ->
+//                    _uiState.value = UiState.Error(error.message ?: "Unknown Error")
+//                }
             )
             .addTo(disposables)
     }

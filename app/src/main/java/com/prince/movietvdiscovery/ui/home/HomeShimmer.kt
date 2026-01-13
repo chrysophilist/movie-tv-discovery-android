@@ -12,7 +12,6 @@ import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.prince.movietvdiscovery.ui.common.ShimmerTextLine
 import com.prince.movietvdiscovery.ui.common.shimmer
 
 
