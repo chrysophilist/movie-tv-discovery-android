@@ -1,8 +1,11 @@
 package com.prince.movietvdiscovery.data.repository
 
 import com.prince.movietvdiscovery.data.remote.api.WatchmodeApi
+import com.prince.movietvdiscovery.data.remote.dto.TitleDetailsDto
 import com.prince.movietvdiscovery.data.remote.mapper.TitleMapper
+import com.prince.movietvdiscovery.data.remote.mapper.TitleMapper.toTitleDetails
 import com.prince.movietvdiscovery.domain.model.HomeContent
+import com.prince.movietvdiscovery.domain.model.TitleDetails
 import com.prince.movietvdiscovery.domain.repository.Repository
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.Singles
@@ -40,6 +43,14 @@ class RepositoryImpl (
 
     }
 
+
+    override fun fetchTitleDetails(titleId: Int): Single<TitleDetails> {
+
+        return api.getTitleDetails(titleId = titleId)
+            .map { dto ->
+                toTitleDetails(dto)
+            }
+    }
 
 
 }
