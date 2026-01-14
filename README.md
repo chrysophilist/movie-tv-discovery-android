@@ -66,7 +66,7 @@ This project is developed as part of an internship interview assignment.
   - Empty response
   - Network timeout scenario
 
-(See `Unit_Test_Cases.md` for detailed documentation)
+(See [`Unit_Test_Cases.md`](./docs/Unit_Test_Cases_.md) for detailed documentation)
 
 ---
 
@@ -119,7 +119,7 @@ This project is developed as part of an internship interview assignment.
 ## 📘 Experience
 
 A detailed reflection on what I learned while building this project is available here:
-👉 [Experience.md](./Experience.md)
+👉 [Experience.md](./docs/Experience.md)
 
 ---
 

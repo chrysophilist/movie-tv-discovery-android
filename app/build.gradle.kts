@@ -100,4 +100,7 @@ dependencies {
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    testImplementation(libs.mockk)
+    testImplementation(libs.rxjava)
+    testImplementation(libs.rxandroid)
 }
