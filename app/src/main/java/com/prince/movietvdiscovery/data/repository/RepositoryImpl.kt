@@ -2,11 +2,13 @@ package com.prince.movietvdiscovery.data.repository
 
 import com.prince.movietvdiscovery.data.remote.api.WatchmodeApi
 import com.prince.movietvdiscovery.data.remote.dto.TitleDetailsDto
+import com.prince.movietvdiscovery.data.remote.mapper.SourceMapper
 import com.prince.movietvdiscovery.data.remote.mapper.TitleMapper
 import com.prince.movietvdiscovery.data.remote.mapper.TitleMapper.toTitleDetails
 import com.prince.movietvdiscovery.data.remote.mapper.toAppError
 import com.prince.movietvdiscovery.domain.model.HomeContent
 import com.prince.movietvdiscovery.domain.model.TitleDetails
+import com.prince.movietvdiscovery.domain.model.TitleDetailsWithSources
 import com.prince.movietvdiscovery.domain.repository.Repository
 import com.prince.movietvdiscovery.domain.util.Result
 import io.reactivex.rxjava3.core.Single
@@ -52,14 +54,32 @@ class RepositoryImpl (
     }
 
 
-    override fun fetchTitleDetails(titleId: Int): Single<Result<TitleDetails>> {
+    override fun fetchTitleDetails(titleId: Int): Single<Result<TitleDetailsWithSources>> {
 
-        return api.getTitleDetails(titleId = titleId)
+        val detailsSingle = api.getTitleDetails(titleId = titleId)
             .map { dto ->
                 toTitleDetails(dto)
             }
-            .map<Result<TitleDetails>> { details ->
-                Result.Success(details)
+
+        val sourcesSingle = api.getTitleSources(titleId = titleId)
+            .map { response ->
+                response.map { dto ->
+                    SourceMapper.toStreamingSource(dto)
+                }
+            }
+
+
+        return Singles.zip(
+            detailsSingle,
+            sourcesSingle
+        ){ details, sources ->
+            TitleDetailsWithSources(
+                details = details,
+                sources = sources
+            )
+        }
+            .map<Result<TitleDetailsWithSources>> { it ->
+                Result.Success(it)
             }
             .onErrorReturn { throwable ->
                 Result.Error(throwable.toAppError())
