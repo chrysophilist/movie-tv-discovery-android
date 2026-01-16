@@ -48,12 +48,7 @@ class DetailsViewModel (
                             _uiState.value = UiState.Error(result.error)
                         }
                     }
-                },
-//                onError = { error ->
-//                    _uiState.value = UiState.Error(
-//                        error.message ?: "Unknown Error"
-//                    )
-//                }
+                }
             )
             .addTo(disposables)
     }
