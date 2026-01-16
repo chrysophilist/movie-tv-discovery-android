@@ -152,7 +152,8 @@ private fun HomeScreenContent(
                         titles = content.movies.map { movie ->
                             TitleUiModel(
                                 id = movie.id,
-                                title = movie.title
+                                title = movie.title,
+                                year = movie.year
                             )
                         },
                         onClick = onClick
@@ -161,7 +162,8 @@ private fun HomeScreenContent(
                         titles = content.tvShows.map { tvshow ->
                             TitleUiModel(
                                 id = tvshow.id,
-                                title = tvshow.title
+                                title = tvshow.title,
+                                year = tvshow.year
                             )
                         },
                         onClick = onClick
@@ -184,7 +186,7 @@ private fun TitleList(
     ) {
         items(titles) { item ->
             ItemCard(
-                title = item.title,
+                title = "${item.title} (${item.year})",
                 onClick = { onClick(item.id) }
             )
         }
@@ -211,5 +213,6 @@ fun ItemCard(
 }
 data class TitleUiModel(
     val id: Int,
-    val title: String
+    val title: String,
+    val year: Int?
 )

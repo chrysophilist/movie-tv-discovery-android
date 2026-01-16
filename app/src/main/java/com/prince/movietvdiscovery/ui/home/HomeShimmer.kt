@@ -36,8 +36,8 @@ private fun ItemCardShimmer() {
         Box(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxWidth(0.6f)   // matches title width illusion
-                .height(20.dp)        // matches title text height
+                .fillMaxWidth()
+                .height(20.dp)
                 .shimmer()
         )
     }
