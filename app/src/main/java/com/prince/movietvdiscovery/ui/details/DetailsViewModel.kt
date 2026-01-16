@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.prince.movietvdiscovery.domain.model.TitleDetailsWithSources
 import com.prince.movietvdiscovery.domain.repository.Repository
 import com.prince.movietvdiscovery.domain.util.Result
-import com.prince.movietvdiscovery.ui.common.DetailsUiState
 import com.prince.movietvdiscovery.ui.common.UiState
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
