@@ -9,5 +9,5 @@ interface Repository {
 
     fun fetchHomeContent(): Single<Result<HomeContent>>
 
-    fun fetchTitleDetails(titleId: Int): Single<Result<TitleDetailsWithSources>>
+    fun fetchTitleDetailsWithSources(titleId: Int): Single<Result<TitleDetailsWithSources>>
 }

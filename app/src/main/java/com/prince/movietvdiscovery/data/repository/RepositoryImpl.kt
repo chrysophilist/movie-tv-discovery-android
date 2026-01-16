@@ -54,7 +54,7 @@ class RepositoryImpl (
     }
 
 
-    override fun fetchTitleDetails(titleId: Int): Single<Result<TitleDetailsWithSources>> {
+    override fun fetchTitleDetailsWithSources(titleId: Int): Single<Result<TitleDetailsWithSources>> {
 
         val detailsSingle = api.getTitleDetails(titleId = titleId)
             .map { dto ->

@@ -1,6 +1,7 @@
 package com.prince.movietvdiscovery.ui.details
 
 import androidx.lifecycle.ViewModel
+import com.prince.movietvdiscovery.domain.model.TitleDetailsWithSources
 import com.prince.movietvdiscovery.domain.repository.Repository
 import com.prince.movietvdiscovery.domain.util.Result
 import com.prince.movietvdiscovery.ui.common.DetailsUiState
@@ -17,8 +18,8 @@ class DetailsViewModel (
     private val repo: Repository
 ): ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState<DetailsUiState>>(UiState.Loading)
-    val uiState: StateFlow<UiState<DetailsUiState>> = _uiState
+    private val _uiState = MutableStateFlow<UiState<TitleDetailsWithSources>>(UiState.Loading)
+    val uiState: StateFlow<UiState<TitleDetailsWithSources>> = _uiState
 
     private val disposables = CompositeDisposable()
     private var loadTitleId: Int? = null
@@ -30,7 +31,7 @@ class DetailsViewModel (
 
         loadTitleId = titleId
 
-        repo.fetchTitleDetails(titleId)
+        repo.fetchTitleDetailsWithSources(titleId)
             .subscribeOn(Schedulers.io())
             .doOnSubscribe {
                 _uiState.value = UiState.Loading
@@ -41,7 +42,7 @@ class DetailsViewModel (
                     when(result) {
                         is Result.Success -> {
                             _uiState.value = UiState.Success(
-                                DetailsUiState(result.data)
+                                result.data
                             )
                         }
                         is Result.Error -> {
