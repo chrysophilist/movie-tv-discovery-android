@@ -19,6 +19,7 @@ loggingInterceptor = "4.12.0"
 kotlinxSerializationJson = "1.7.3"
 rxjava = "3.1.12"
 mockk = "1.14.7"
+kotlinxCoroutines = "1.10.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +57,9 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
