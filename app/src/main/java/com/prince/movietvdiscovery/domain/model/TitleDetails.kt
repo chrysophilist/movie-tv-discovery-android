@@ -6,5 +6,9 @@ data class TitleDetails(
     val description: String?,
     val year: Int?,
     val releaseDate: String?,
-    val posterUrl: String?
+    val posterUrl: String?,
+    val backdrop: String?,
+    val runtimeMinutes: Int?,
+    val genres: List<String>,
+    val cast: List<Credit>
 )

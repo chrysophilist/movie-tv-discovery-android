@@ -4,20 +4,28 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -27,11 +35,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,6 +55,8 @@ import com.prince.movietvdiscovery.ui.navigation.AppScaffoldState
 import org.koin.androidx.compose.koinViewModel
 import androidx.core.net.toUri
 import com.prince.movietvdiscovery.domain.model.StreamingType
+import com.prince.movietvdiscovery.ui.common.formatRuntime
+import com.prince.movietvdiscovery.ui.credits.CastSection
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,7 +79,7 @@ fun DetailsScreen(
     LaunchedEffect(uiState) {
         setScaffoldState(
             AppScaffoldState(
-                containerColor = Color.Transparent,
+                containerColor = Color.Black,
                 applyContentPadding = false,
                 topBar = {
                     TopAppBar(
@@ -112,9 +125,14 @@ fun DetailsScreen(
                             },
                             modifier = Modifier
                                 .fillMaxWidth(0.8f),
-                            containerColor = Color.Red
+                            containerColor = Color(0xFFd91f25)
 
                         ) {
+                            Icon(
+                                imageVector = Icons.Default.PlayArrow,
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
                             Text(
                                 text = when(bestSource?.type){
                                     StreamingType.FREE -> "Watch Free"
@@ -188,12 +206,11 @@ private fun DetailsScreenContent(
         is UiState.Success -> {
 
             val details = uiState.data.details
-//            •
 
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
+                    .fillMaxSize(),
+                contentPadding = PaddingValues(bottom = 100.dp)
             ) {
 
                 item {
@@ -201,11 +218,13 @@ private fun DetailsScreenContent(
                     Box {
                         AsyncImage(
                             model = details.posterUrl,
-                            contentDescription = details.title,
+                            contentDescription = null,
                             modifier = Modifier
+                                .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
                                 .fillMaxSize(),
                             contentScale = ContentScale.Crop
                         )
+
                         Box(
                             modifier = Modifier
                                 .matchParentSize()
@@ -214,34 +233,89 @@ private fun DetailsScreenContent(
                                         colors = listOf(
                                             Color.Black.copy(alpha = 0.6f),
                                             Color.Transparent,
-                                            Color.Black.copy(alpha = 0.9f)
+                                            Color.Black.copy(alpha = 0.3f),
+                                            Color.Black.copy(alpha = 0.6f),
+                                            Color.Black.copy(alpha = 1f)
                                         )
                                     )
                                 )
                         )
+
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = details.title,
+                                fontSize = 28.sp,
+                                fontFamily = FontFamily.SansSerif,
+                                fontWeight = FontWeight.SemiBold,
+                                textAlign = TextAlign.Center,
+                                color = Color.White,
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Badge(text = details.year.toString())
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Badge(text = details.genres.firstOrNull() ?: "Movie")
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Badge(text = formatRuntime(details.runtimeMinutes))
+                            }
+                        }
                     }
 
-                    Spacer(Modifier.height(8.dp))
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp)
+                    ) {
+                        Text(
+                            text = "Storyline",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(Modifier.height(8.dp))
 
-                    Text(
-                        text = details.title
-                    )
+                        Text(
+                            text = details.description ?: "No description available.",
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
+                            lineHeight = 24.sp
+                        )
+//                        if (!details.releaseDate.isNullOrEmpty()){
+//                            Text(
+//                                text = details.releaseDate,
+//                                style = MaterialTheme.typography.bodyLarge,
+//                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
+//                            )
+//                        }
+                        Spacer(Modifier.height(24.dp))
 
-                    Spacer(Modifier.height(8.dp))
-
-                    Text(
-                        text = details.description ?: "Description not available"
-                    )
-
-                    Spacer(Modifier.height(8.dp))
-
-                    Text(
-                        text = details.releaseDate ?: "NA"
-                    )
-
-                    Spacer(Modifier.height(8.dp))
+                        if (details.cast.isNotEmpty()) {
+                            CastSection(castList = details.cast, onSeeAllClick = {})
+                        }
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun Badge(text: String) {
+    Surface(
+        color = Color.White.copy(alpha = 0.2f),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            style = MaterialTheme.typography.labelLarge,
+            color = Color.White
+        )
     }
 }

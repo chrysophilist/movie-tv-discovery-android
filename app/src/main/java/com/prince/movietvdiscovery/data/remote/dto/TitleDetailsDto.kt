@@ -16,5 +16,16 @@ data class TitleDetailsDto(
     val releaseDate: String?,
 
     @SerializedName("poster")
-    val posterUrl: String?
+    val posterUrl: String?,
+
+    val backdrop: String?,
+
+    @SerializedName("runtime_minutes")
+    val runtimeMinutes: Int?,
+
+    @SerializedName("genre_names")
+    val genreNames: List<String>?,
+
+    @SerializedName("cast")
+    val cast: List<CastDto>?
 )

@@ -32,6 +32,7 @@ interface WatchmodeApi {
     fun getTitleDetails(
         @Path("title_id") titleId: Int,
         @Query("apiKey") apiKey: String = BuildConfig.WATCHMODE_API_KEY,
+        @Query("append_to_response") append: String = "cast-crew"
     ): Single<TitleDetailsDto>
 
 
