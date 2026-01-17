@@ -10,16 +10,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -76,14 +71,13 @@ fun HomeScreen(
                 }
             )
         )
+//        viewModel.loadHome()
     }
-
-
 
     HomeScreenContent(
         uiState = uiState,
         onClick = onClick,
-        onRetry = { viewModel.fetchHomeContent() },
+        onRetry = { viewModel.loadHome(force = true) },
         showSnackbar = showSnackbar
     )
 }

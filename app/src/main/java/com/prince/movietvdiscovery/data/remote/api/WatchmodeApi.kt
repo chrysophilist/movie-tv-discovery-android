@@ -20,7 +20,7 @@ interface WatchmodeApi {
     ): ListTitlesResponseDto
 
     @GET("list-titles/")
-    fun getTvShows(
+    suspend fun getTvShows(
         @Query("apiKey") apiKey: String = BuildConfig.WATCHMODE_API_KEY,
         @Query("types") types: String = "tv_series",
         @Query("page") page: Int = 1,
@@ -29,7 +29,7 @@ interface WatchmodeApi {
 
 
     @GET("title/{title_id}/details/")
-    fun getTitleDetails(
+    suspend fun getTitleDetails(
         @Path("title_id") titleId: Int,
         @Query("apiKey") apiKey: String = BuildConfig.WATCHMODE_API_KEY,
         @Query("append_to_response") append: String = "cast-crew"
@@ -37,7 +37,7 @@ interface WatchmodeApi {
 
 
     @GET("title/{title_id}/sources/")
-    fun getTitleSources(
+    suspend fun getTitleSources(
         @Path("title_id") titleId: Int,
         @Query("apiKey") apiKey: String = BuildConfig.WATCHMODE_API_KEY
     ): SourcesResponse

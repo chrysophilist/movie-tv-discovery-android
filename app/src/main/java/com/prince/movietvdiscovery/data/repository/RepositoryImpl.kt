@@ -1,10 +1,8 @@
 package com.prince.movietvdiscovery.data.repository
 
 import com.prince.movietvdiscovery.data.remote.api.WatchmodeApi
-import com.prince.movietvdiscovery.data.remote.dto.TitleDetailsDto
 import com.prince.movietvdiscovery.data.remote.mapper.SourceMapper
 import com.prince.movietvdiscovery.data.remote.mapper.TitleMapper
-import com.prince.movietvdiscovery.data.remote.mapper.TitleMapper.toTitleDetails
 import com.prince.movietvdiscovery.data.remote.mapper.toAppError
 import com.prince.movietvdiscovery.domain.model.HomeContent
 import com.prince.movietvdiscovery.domain.model.TitleDetails
@@ -12,8 +10,6 @@ import com.prince.movietvdiscovery.domain.model.TitleDetailsWithSources
 import com.prince.movietvdiscovery.domain.repository.Repository
 import com.prince.movietvdiscovery.domain.util.DispatcherProvider
 import com.prince.movietvdiscovery.domain.util.Result
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.kotlin.Singles
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext

@@ -286,13 +286,6 @@ private fun DetailsScreenContent(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
                             lineHeight = 24.sp
                         )
-//                        if (!details.releaseDate.isNullOrEmpty()){
-//                            Text(
-//                                text = details.releaseDate,
-//                                style = MaterialTheme.typography.bodyLarge,
-//                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
-//                            )
-//                        }
                         Spacer(Modifier.height(24.dp))
 
                         if (details.cast.isNotEmpty()) {
