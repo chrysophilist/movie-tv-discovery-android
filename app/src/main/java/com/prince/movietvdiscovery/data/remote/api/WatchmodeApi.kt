@@ -12,12 +12,12 @@ import retrofit2.http.Query
 interface WatchmodeApi {
 
     @GET("list-titles/")
-    fun getMovies(
+    suspend fun getMovies(
         @Query("apiKey") apiKey: String = BuildConfig.WATCHMODE_API_KEY,
         @Query("types") types: String = "movie",
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 20
-    ): Single<ListTitlesResponseDto>
+    ): ListTitlesResponseDto
 
     @GET("list-titles/")
     fun getTvShows(
@@ -25,7 +25,7 @@ interface WatchmodeApi {
         @Query("types") types: String = "tv_series",
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 20
-    ): Single<ListTitlesResponseDto>
+    ): ListTitlesResponseDto
 
 
     @GET("title/{title_id}/details/")
@@ -33,12 +33,12 @@ interface WatchmodeApi {
         @Path("title_id") titleId: Int,
         @Query("apiKey") apiKey: String = BuildConfig.WATCHMODE_API_KEY,
         @Query("append_to_response") append: String = "cast-crew"
-    ): Single<TitleDetailsDto>
+    ): TitleDetailsDto
 
 
     @GET("title/{title_id}/sources/")
     fun getTitleSources(
         @Path("title_id") titleId: Int,
         @Query("apiKey") apiKey: String = BuildConfig.WATCHMODE_API_KEY
-    ): Single<SourcesResponse>
+    ): SourcesResponse
 }
