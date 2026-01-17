@@ -1,6 +1,7 @@
 package com.prince.movietvdiscovery.ui.details
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.prince.movietvdiscovery.domain.model.TitleDetailsWithSources
 import com.prince.movietvdiscovery.domain.repository.Repository
 import com.prince.movietvdiscovery.domain.util.Result
@@ -12,6 +13,7 @@ import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 class DetailsViewModel (
     private val repo: Repository
@@ -20,7 +22,6 @@ class DetailsViewModel (
     private val _uiState = MutableStateFlow<UiState<TitleDetailsWithSources>>(UiState.Loading)
     val uiState: StateFlow<UiState<TitleDetailsWithSources>> = _uiState
 
-    private val disposables = CompositeDisposable()
     private var loadTitleId: Int? = null
 
     fun loadDetails(titleId: Int) {
@@ -30,30 +31,19 @@ class DetailsViewModel (
 
         loadTitleId = titleId
 
-        repo.fetchTitleDetailsWithSources(titleId)
-            .subscribeOn(Schedulers.io())
-            .doOnSubscribe {
-                _uiState.value = UiState.Loading
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onSuccess = { result ->
-                    when(result) {
-                        is Result.Success -> {
-                            _uiState.value = UiState.Success(
-                                result.data
-                            )
-                        }
-                        is Result.Error -> {
-                            _uiState.value = UiState.Error(result.error)
-                        }
-                    }
-                }
-            )
-            .addTo(disposables)
-    }
+        viewModelScope.launch {
+            _uiState.value = UiState.Loading
 
-    override fun onCleared() {
-        disposables.clear()
+            when(val result = repo.fetchTitleDetailsWithSources(titleId) ) {
+                is Result.Success -> {
+                    _uiState.value = UiState.Success(
+                        result.data
+                    )
+                }
+                is Result.Error -> {
+                    _uiState.value = UiState.Error(result.error)
+                }
+            }
+        }
     }
 }
