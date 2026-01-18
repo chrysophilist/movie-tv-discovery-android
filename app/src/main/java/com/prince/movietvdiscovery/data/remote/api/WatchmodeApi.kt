@@ -1,5 +1,6 @@
 package com.prince.movietvdiscovery.data.remote.api
 
+import com.prince.movietvdiscovery.data.remote.dto.ApiStatusDto
 import com.prince.movietvdiscovery.data.remote.dto.ListTitlesResponseDto
 import com.prince.movietvdiscovery.data.remote.dto.TitleDetailsDto
 import com.prince.movietvdiscovery.data.remote.dto.source.SourcesResponse
@@ -35,4 +36,8 @@ interface WatchmodeApi {
     suspend fun getTitleSources(
         @Path("title_id") titleId: Int,
     ): SourcesResponse
+
+
+    @GET("status/")
+    suspend fun getApiStatus(): ApiStatusDto
 }
