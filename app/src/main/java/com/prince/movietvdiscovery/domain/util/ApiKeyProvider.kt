@@ -4,9 +4,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface ApiKeyProvider {
 
-    fun getApiKey(): String?
+    suspend fun getApiKey(): String?
 
-    fun hasApiKey(): Boolean
+    suspend fun hasApiKey(): Boolean
 
     val apiKeyFlow: Flow<String?>
 }
