@@ -1,5 +1,6 @@
 package com.prince.movietvdiscovery.di
 
+import com.prince.movietvdiscovery.ui.apikey.ApiKeyViewModel
 import com.prince.movietvdiscovery.ui.details.DetailsViewModel
 import com.prince.movietvdiscovery.ui.home.HomeViewModel
 import org.koin.core.module.dsl.viewModel
@@ -16,6 +17,13 @@ val viewModelModule = module {
     viewModel {
         DetailsViewModel(
             repo = get()
+        )
+    }
+
+    viewModel {
+        ApiKeyViewModel(
+            repo = get(),
+            apiKeyProvider = get()
         )
     }
 }

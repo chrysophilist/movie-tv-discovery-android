@@ -9,4 +9,8 @@ interface ApiKeyProvider {
     suspend fun hasApiKey(): Boolean
 
     val apiKeyFlow: Flow<String?>
+
+    suspend fun saveApiKey(apiKey: String)
+
+    suspend fun clearApiKey()
 }
