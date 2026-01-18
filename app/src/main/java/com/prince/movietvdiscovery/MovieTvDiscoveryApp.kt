@@ -19,10 +19,10 @@ class MovieTvDiscoveryApp : Application() {
         startKoin {
             androidContext(this@MovieTvDiscoveryApp)
             modules(
+                dataStoreModule,
                 networkModule,
                 repositoryModule,
                 viewModelModule,
-                dataStoreModule
             )
         }
     }

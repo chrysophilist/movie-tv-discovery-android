@@ -1,6 +1,7 @@
 package com.prince.movietvdiscovery.di
 
 import com.prince.movietvdiscovery.BuildConfig
+import com.prince.movietvdiscovery.data.remote.api.ApiKeyInterceptor
 import com.prince.movietvdiscovery.data.remote.api.WatchmodeApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -23,7 +24,14 @@ val networkModule = module {
     }
 
     single {
+        ApiKeyInterceptor(
+            apiKeyProvider = get()
+        )
+    }
+
+    single {
         OkHttpClient.Builder()
+            .addInterceptor(get<ApiKeyInterceptor>())
             .addInterceptor(get<HttpLoggingInterceptor>())
             .build()
     }
