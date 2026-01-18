@@ -36,39 +36,38 @@ class ApiKeyViewModel (
                 )
             }
         }
+    }
 
+    fun validateKey(){
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(
+                isLoading = true
+            )
 
-        fun validateKey(){
-            viewModelScope.launch {
-                _uiState.value = _uiState.value.copy(
-                    isLoading = true
-                )
+            val result = repo.validateApiKey()
 
-                val result = repo.validateApiKey()
-
-                _uiState.value = _uiState.value.copy(
-                    isLoading = false,
-                    status = result
-                )
-            }
+            _uiState.value = _uiState.value.copy(
+                isLoading = false,
+                status = result
+            )
         }
+    }
 
-        fun saveApiKey(key: String) {
-            viewModelScope.launch {
-                apiKeyProvider.saveApiKey(key)
+    fun saveApiKey(key: String) {
+        viewModelScope.launch {
+            apiKeyProvider.saveApiKey(key)
 
-                _uiState.value = _uiState.value.copy(
-                    currentKey = key,
-                    status = ApiKeyStatus.Missing
-                )
-            }
+            _uiState.value = _uiState.value.copy(
+                currentKey = key,
+                status = ApiKeyStatus.Missing
+            )
         }
+    }
 
-        fun clearApiKey() {
-            viewModelScope.launch {
-                apiKeyProvider.clearApiKey()
-                _uiState.value = ApiKeyUiState()
-            }
+    fun clearApiKey() {
+        viewModelScope.launch {
+            apiKeyProvider.clearApiKey()
+            _uiState.value = ApiKeyUiState()
         }
     }
 }

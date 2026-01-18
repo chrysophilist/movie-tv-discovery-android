@@ -30,11 +30,11 @@ class DataStoreApiKeyProvider (
         runCatching { getApiKey() != null }.getOrDefault(false)
 
 
-    suspend fun saveApiKey(apiKey: String) {
+    override suspend fun saveApiKey(apiKey: String) {
         dataStore.saveApiKey(apiKey)
     }
 
-    suspend fun clearApiKey(){
+    override suspend fun clearApiKey(){
         dataStore.clearApiKey()
     }
 }
