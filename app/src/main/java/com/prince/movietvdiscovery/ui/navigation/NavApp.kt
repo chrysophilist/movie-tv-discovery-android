@@ -14,15 +14,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.prince.movietvdiscovery.domain.model.AppStartDestination
 import com.prince.movietvdiscovery.ui.details.DetailsScreen
 import com.prince.movietvdiscovery.ui.home.HomeScreen
+import com.prince.movietvdiscovery.ui.onboarding.OnboardingScreen
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NavApp() {
+
+    val rootViewModel: RootViewModel = koinViewModel()
+    val startDestination by rootViewModel.startDestination.collectAsStateWithLifecycle()
 
     val navController = rememberNavController()
 
@@ -32,6 +39,8 @@ fun NavApp() {
     val showSnackbar: suspend (String) -> Unit = { message ->
         snackbarHostState.showSnackbar(message)
     }
+
+    if (startDestination == null) return
 
     Scaffold(
         topBar = {
@@ -50,7 +59,11 @@ fun NavApp() {
 
         NavHost(
             navController = navController,
-            startDestination = Routes.HomeScreen,
+            startDestination = when(startDestination) {
+                AppStartDestination.Onboarding -> Routes.OnboardingScreen
+                AppStartDestination.Home -> Routes.HomeScreen
+                else -> Routes.HomeScreen
+            },
             modifier = Modifier
                 .fillMaxSize()
                 .then(
@@ -58,6 +71,10 @@ fun NavApp() {
                     else Modifier
                 )
         ) {
+
+            composable<Routes.OnboardingScreen>{
+                OnboardingScreen()
+            }
 
             composable<Routes.HomeScreen>{
                 HomeScreen(
