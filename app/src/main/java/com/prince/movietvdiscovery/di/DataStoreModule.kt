@@ -1,6 +1,7 @@
 package com.prince.movietvdiscovery.di
 
 import com.prince.movietvdiscovery.data.local.prefs.ApiKeyDataStore
+import com.prince.movietvdiscovery.data.local.prefs.OnboardingDataStore
 import com.prince.movietvdiscovery.data.remote.api.DataStoreApiKeyProvider
 import com.prince.movietvdiscovery.domain.util.ApiKeyProvider
 import org.koin.android.ext.koin.androidContext
@@ -16,5 +17,9 @@ val dataStoreModule = module {
 
     single<ApiKeyProvider> {
         DataStoreApiKeyProvider(get())
+    }
+
+    single {
+        OnboardingDataStore(androidContext())
     }
 }
