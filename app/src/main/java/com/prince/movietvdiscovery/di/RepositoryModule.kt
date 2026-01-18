@@ -11,7 +11,8 @@ val repositoryModule = module {
     single<Repository> {
         RepositoryImpl(
             api = get(),
-            dispatcherProvider = get()
+            dispatcherProvider = get(),
+            apiKeyProvider = get()
             )
     }
 
