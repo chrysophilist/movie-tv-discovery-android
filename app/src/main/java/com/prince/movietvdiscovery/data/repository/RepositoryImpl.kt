@@ -118,8 +118,18 @@ class RepositoryImpl (
                 )
             } catch (e: Exception) {
 
-                if (e is HttpException && e.code() == 401) {
-                    ApiKeyStatus.Invalid
+                if (e is HttpException)  {
+                    when(e.code()) {
+                        401 -> ApiKeyStatus.Invalid
+                        429 -> ApiKeyStatus.QuotaExceeded(
+                            quota = 1000,
+                            quotaUsed = 1000,
+                            resetInDays = 30
+                        )
+                        else -> ApiKeyStatus.Error(
+                            message = "Unable to validate API key"
+                        )
+                    }
                 } else {
                     ApiKeyStatus.Error(
                         message = e.localizedMessage ?: "Unable to validate API key"

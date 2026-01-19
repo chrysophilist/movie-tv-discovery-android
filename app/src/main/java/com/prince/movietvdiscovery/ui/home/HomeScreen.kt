@@ -53,6 +53,7 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isApiKeyMissing by viewModel.isApiKeyWasMissing.collectAsStateWithLifecycle()
+    val isQuotaExceeded by viewModel.isQuotaExhausted.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         setScaffoldState(
@@ -90,10 +91,13 @@ fun HomeScreen(
 //        viewModel.loadHome()
     }
 
-    if (isApiKeyMissing) {
-        HomeEmptyStateScreen(onAddApiKey = onNavigateToSettings)
-    } else {
-        HomeScreenContent(
+
+    when {
+        isApiKeyMissing -> HomeEmptyStateScreen(onAddApiKey = onNavigateToSettings)
+
+        isQuotaExceeded -> Toast.makeText(LocalContext.current, "Your monthly API quota exhausted", Toast.LENGTH_SHORT).show()
+
+        else -> HomeScreenContent(
             uiState = uiState,
             onClick = onClick,
             onRetry = { viewModel.loadHome(force = true) },

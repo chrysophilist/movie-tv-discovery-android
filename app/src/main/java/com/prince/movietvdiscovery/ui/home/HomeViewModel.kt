@@ -25,6 +25,9 @@ class HomeViewModel(
     private val _isApiKeyMissing = MutableStateFlow(false)
     val isApiKeyWasMissing:StateFlow<Boolean> = _isApiKeyMissing.asStateFlow()
 
+    private val _isQuotaExhausted = MutableStateFlow(false)
+    val isQuotaExhausted: StateFlow<Boolean> = _isQuotaExhausted
+
     init {
         loadHome()
     }
@@ -49,11 +52,14 @@ class HomeViewModel(
                 is Result.Success -> {
                     hasLoaded = true
                     _isApiKeyMissing.value = false
+                    _isQuotaExhausted.value = false
                     _uiState.value = UiState.Success(result.data)
                 }
                 is Result.Error -> {
-                    if (result.error is AppError.MissingApiKey){
-                        _isApiKeyMissing.value = true
+                    when(result.error) {
+                        is AppError.MissingApiKey -> _isApiKeyMissing.value = true
+                        is AppError.QuotaExceeded -> _isQuotaExhausted.value = true
+                        else -> null
                     }
                     _uiState.value = UiState.Error(result.error)
                 }

@@ -15,4 +15,10 @@ sealed class ApiKeyStatus {
     data class Error(
         val message: String
     ): ApiKeyStatus()
+
+    data class QuotaExceeded(
+        val quota: Int,
+        val quotaUsed: Int,
+        val resetInDays: Int
+    ): ApiKeyStatus()
 }

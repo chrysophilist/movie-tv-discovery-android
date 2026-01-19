@@ -10,8 +10,9 @@ fun Throwable.toAppError(): AppError {
         is HttpException -> {
             when (code()) {
                 400 -> AppError.BadRequest("Missing or invalid parameters")
-                401 -> AppError.Unauthorized("Unauthorized request")
-                404 -> AppError.NotFound("Title not found")
+                401 -> AppError.Unauthorized("Invalid API key")
+                404 -> AppError.NotFound("Content not found")
+                429 -> AppError.QuotaExceeded("Monthly API quota exhausted")
                 else -> AppError.Unknown("Server error")
             }
         }

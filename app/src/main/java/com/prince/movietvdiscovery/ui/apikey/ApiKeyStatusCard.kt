@@ -80,6 +80,7 @@ fun ApiKeyStatusCard(state: ApiKeyUiState) {
             row2Label = "Message",
             row2Value = status.message
         )
+        is ApiKeyStatus.QuotaExceeded -> TODO()
     }
 
     Card(

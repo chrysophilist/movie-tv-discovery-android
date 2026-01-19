@@ -30,4 +30,8 @@ sealed class AppError(
     data class MissingApiKey(
         override val message: String = "API key not added"
     ) : AppError(message)
+
+    data class QuotaExceeded(
+        override val message: String = "Monthly API quota exhausted"
+    ): AppError(message)
 }
