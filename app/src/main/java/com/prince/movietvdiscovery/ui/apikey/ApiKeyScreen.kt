@@ -1,6 +1,5 @@
 package com.prince.movietvdiscovery.ui.apikey
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -73,20 +72,24 @@ fun ApiKeyRoute(
     LaunchedEffect(Unit) {
         setScaffoldState(
             AppScaffoldState(
-                containerColor = Color.Black,
                 topBar = {
                     CenterAlignedTopAppBar(
                         title = { Text("Watchmode API", fontWeight = FontWeight.SemiBold) },
                         navigationIcon = {
-                            IconButton(onClick = onBack) {
+                            IconButton(
+                                onClick = onBack,
+                                modifier = Modifier.size(48.dp)
+                            ) {
                                 Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
                             }
                         },
                         actions = {
-                            IconButton(onClick = {}) {
+                            IconButton( onClick = {},
+                                modifier = Modifier.size(48.dp)
+                            ) {
                                 Icon(
                                     Icons.Default.MoreVert,
-                                    contentDescription = null
+                                    contentDescription = "Menu"
                                 )
                             }
                         },
@@ -126,8 +129,8 @@ fun ApiKeyScreen(
 
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .fillMaxSize(),
+//            .background(MaterialTheme.colorScheme.background),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -147,8 +150,12 @@ fun ApiKeyScreen(
                 trailingIcon = {
                     IconButton(onClick = { showKey = !showKey }) {
                         Icon(
-                            if(showKey) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                            null)
+                            imageVector = if (showKey) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                            contentDescription = if (showKey)
+                                "Hide API key"
+                            else
+                                "Show API key"
+                        )
                     }
                 },
                 visualTransformation = if (showKey) VisualTransformation.None else PasswordVisualTransformation(),
@@ -170,7 +177,7 @@ fun ApiKeyScreen(
                 )
             )
         }
-        if ((state.status is ApiKeyStatus.Missing || state.status is ApiKeyStatus.Invalid) && inputKey.isBlank()) {
+        if ((state.status is ApiKeyStatus.Missing || state.status is ApiKeyStatus.Invalid) && inputKey.isBlank() || state.status is ApiKeyStatus.Error) {
             item {
                 GetApiKeyCard(
                     onClick = { showGuideSheet = true }

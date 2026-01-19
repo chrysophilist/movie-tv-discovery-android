@@ -52,8 +52,7 @@ fun MovieTVDiscoveryTheme(
     }
 
     MaterialTheme(
-//        colorScheme = colorScheme,
-        colorScheme = DarkColorScheme,
+        colorScheme = colorScheme,
         typography = Typography,
         content = content
     )

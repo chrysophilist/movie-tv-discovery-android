@@ -238,9 +238,13 @@ fun ApiKeyOnboardingScreen(
                 trailingIcon = {
                     IconButton(onClick = { isKeyVisible = !isKeyVisible }) {
                         Icon(
-                            imageVector = if (isKeyVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                            contentDescription = "Toggle Visibility"
+                            imageVector = if (isKeyVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                            contentDescription = if (isKeyVisible)
+                                "Hide API key"
+                            else
+                                "Show API key"
                         )
+
                     }
                 },
                 shape = MaterialTheme.shapes.medium,

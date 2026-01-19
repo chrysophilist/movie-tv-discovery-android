@@ -3,6 +3,7 @@ package com.prince.movietvdiscovery.ui.details
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,8 +13,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -72,6 +75,8 @@ fun DetailsScreen(
 
     val context = LocalContext.current
 
+    val containerColor = if (isSystemInDarkTheme()) {Color.Black} else { MaterialTheme.colorScheme.background }
+
     LaunchedEffect(titleId) {
         viewModel.loadDetails(titleId)
     }
@@ -79,19 +84,27 @@ fun DetailsScreen(
     LaunchedEffect(uiState) {
         setScaffoldState(
             AppScaffoldState(
-                containerColor = Color.Black,
+                containerColor = containerColor,
                 applyContentPadding = false,
                 topBar = {
                     TopAppBar(
                         title = {},
                         navigationIcon = {
-                            IconButton(
-                                onClick = onBack
+                            Box(
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .background(
+                                        color = Color.Black.copy(alpha = 0.32f),
+                                        shape = CircleShape
+                                    )
                             ) {
-                                Icon(
-                                    Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Back to Home"
-                                )
+                                IconButton(onClick = onBack) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                        contentDescription = "Back to Home",
+                                        tint = Color.White
+                                    )
+                                }
                             }
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
@@ -124,13 +137,16 @@ fun DetailsScreen(
                                 context.startActivity(intent)
                             },
                             modifier = Modifier
-                                .fillMaxWidth(0.8f),
+                                .fillMaxWidth(0.9f)
+                                .height(56.dp),
+                            shape = CircleShape,
                             containerColor = Color(0xFFd91f25)
 
                         ) {
                             Icon(
                                 imageVector = Icons.Default.PlayArrow,
-                                contentDescription = null
+                                contentDescription = null,
+                                tint = Color.White
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
@@ -230,13 +246,37 @@ private fun DetailsScreenContent(
                                 .matchParentSize()
                                 .background(
                                     Brush.verticalGradient(
-                                        colors = listOf(
+                                        colors = if (isSystemInDarkTheme()){
+                                            listOf(
                                             Color.Black.copy(alpha = 0.6f),
+                                            Color.Black.copy(alpha = 0.3f),
+                                            Color.Transparent,
                                             Color.Transparent,
                                             Color.Black.copy(alpha = 0.3f),
                                             Color.Black.copy(alpha = 0.6f),
                                             Color.Black.copy(alpha = 1f)
                                         )
+                                        } else {
+                                            listOf(
+                                                MaterialTheme.colorScheme.background.copy(0.2f),
+                                                Color.Transparent,
+                                                Color.Transparent,
+                                                Color.Transparent,
+                                                Color.Transparent,
+                                                Color.Transparent,
+                                                Color.Transparent,
+                                                Color.Transparent,
+                                                Color.Transparent,
+                                                Color.Transparent,
+                                                Color.Transparent,
+                                                Color.Transparent,
+                                                Color.Transparent,
+                                                MaterialTheme.colorScheme.background.copy(0.5f),
+                                                MaterialTheme.colorScheme.background.copy(0.7f),
+                                                MaterialTheme.colorScheme.background.copy(0.9f),
+                                                MaterialTheme.colorScheme.background.copy(1f),
+                                            )
+                                        }
                                     )
                                 )
                         )
@@ -253,7 +293,7 @@ private fun DetailsScreenContent(
                                 fontFamily = FontFamily.SansSerif,
                                 fontWeight = FontWeight.SemiBold,
                                 textAlign = TextAlign.Center,
-                                color = Color.White,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
@@ -301,14 +341,14 @@ private fun DetailsScreenContent(
 @Composable
 fun Badge(text: String) {
     Surface(
-        color = Color.White.copy(alpha = 0.2f),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
         shape = RoundedCornerShape(8.dp)
     ) {
         Text(
             text = text,
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             style = MaterialTheme.typography.labelLarge,
-            color = Color.White
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }

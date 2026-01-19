@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -19,6 +20,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -67,18 +69,20 @@ fun HomeScreen(
                                     fontWeight = FontWeight.SemiBold,
                                     color = Color(0xFFd91f25)
                                 )
-                                Text(
-                                    text = "Discover the Movies and TV Shows",
-                                    fontSize = 24.sp,
-                                    fontWeight = FontWeight.Light
-                                )
                             }
                         },
                         actions = {
-                            IconButton(onClick = onOpenSettings) {
+                            IconButton(
+                                onClick = onOpenSettings,
+                                modifier = Modifier.size(48.dp)
+                            ) {
                                 Icon(Icons.Default.Settings, "Settings")
                             }
-                        }
+                        },
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = Color.Transparent,
+                            scrolledContainerColor = Color.Transparent
+                        )
                     )
                 }
             )
@@ -98,7 +102,7 @@ fun HomeScreen(
     }
 
     LaunchedEffect(isApiKeyMissing) {
-        if (!isApiKeyMissing) {
+        if (!isApiKeyMissing && uiState !is UiState.Loading && uiState !is UiState.Success) {
             showSnackbar("API key added. Tap Retry to load content.")
         }
     }
