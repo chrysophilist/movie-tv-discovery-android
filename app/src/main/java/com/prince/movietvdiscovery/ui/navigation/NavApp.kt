@@ -126,7 +126,10 @@ fun NavApp() {
                         navController.navigate(Routes.DetailsScreen(titleId))
                     },
                     setScaffoldState = { scaffoldState = it },
-                    showSnackbar = showSnackbar
+                    showSnackbar = showSnackbar,
+                    onNavigateToSettings = {
+                        navController.navigate(Routes.ApiKeyScreen)
+                    }
                 )
             }
 

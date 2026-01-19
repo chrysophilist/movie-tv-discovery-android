@@ -41,9 +41,11 @@ fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
     onClick: (Int)-> Unit,
     setScaffoldState: (AppScaffoldState)-> Unit,
-    showSnackbar: suspend (String)-> Unit
+    showSnackbar: suspend (String)-> Unit,
+    onNavigateToSettings: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isApiKeyMissing by viewModel.isApiKeyWasMissing.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         setScaffoldState(
@@ -74,12 +76,16 @@ fun HomeScreen(
 //        viewModel.loadHome()
     }
 
-    HomeScreenContent(
-        uiState = uiState,
-        onClick = onClick,
-        onRetry = { viewModel.loadHome(force = true) },
-        showSnackbar = showSnackbar
-    )
+    if (isApiKeyMissing) {
+        HomeEmptyStateScreen(onAddApiKey = onNavigateToSettings)
+    } else {
+        HomeScreenContent(
+            uiState = uiState,
+            onClick = onClick,
+            onRetry = { viewModel.loadHome(force = true) },
+            showSnackbar = showSnackbar
+        )
+    }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

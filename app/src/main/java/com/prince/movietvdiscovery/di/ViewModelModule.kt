@@ -12,7 +12,8 @@ val viewModelModule = module {
 
     viewModel {
         HomeViewModel(
-            repo = get()
+            repo = get(),
+            apiKeyProvider = get()
         )
     }
 
