@@ -20,9 +20,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.prince.movietvdiscovery.domain.model.AppStartDestination
+import com.prince.movietvdiscovery.ui.apikey.ApiKeyScreen
+import com.prince.movietvdiscovery.ui.apikey.ApiKeyViewModel
 import com.prince.movietvdiscovery.ui.details.DetailsScreen
 import com.prince.movietvdiscovery.ui.home.HomeScreen
+import com.prince.movietvdiscovery.ui.onboarding.ApiKeyOnboardingScreen
 import com.prince.movietvdiscovery.ui.onboarding.OnboardingScreen
+import com.prince.movietvdiscovery.ui.onboarding.OnboardingViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -30,6 +34,9 @@ fun NavApp() {
 
     val rootViewModel: RootViewModel = koinViewModel()
     val startDestination by rootViewModel.startDestination.collectAsStateWithLifecycle()
+
+    val onboardingViewModel: OnboardingViewModel = koinViewModel()
+    val apiKeyViewModel: ApiKeyViewModel = koinViewModel()
 
     val navController = rememberNavController()
 
@@ -67,13 +74,50 @@ fun NavApp() {
             modifier = Modifier
                 .fillMaxSize()
                 .then(
-                    if(scaffoldState.applyContentPadding) Modifier.padding(paddingValues)
+                    if (scaffoldState.applyContentPadding) Modifier.padding(paddingValues)
                     else Modifier
                 )
         ) {
 
             composable<Routes.OnboardingScreen>{
-                OnboardingScreen()
+                OnboardingScreen(
+                    onSkip = {
+                        onboardingViewModel.completeOnboarding()
+                        navController.navigate(Routes.HomeScreen) {
+                            popUpTo(Routes.OnboardingScreen) { inclusive = true }
+                        }
+                    },
+                    onContinue = {
+                        navController.navigate(Routes.ApiKeyOnboardingScreen)
+                    }
+                )
+            }
+
+            composable<Routes.ApiKeyOnboardingScreen>{
+                val apiKeyState by apiKeyViewModel.uiState.collectAsStateWithLifecycle()
+
+                ApiKeyOnboardingScreen(
+                    state = apiKeyState,
+                    onSkip = {
+                        onboardingViewModel.completeOnboarding()
+                        navController.navigate(Routes.HomeScreen) {
+                            popUpTo(Routes.OnboardingScreen) { inclusive = true }
+                        }
+                    },
+                    onBack = {
+                        navController.popBackStack()
+                    },
+                    onSuccess = {
+                        onboardingViewModel.completeOnboarding()
+                        navController.navigate(Routes.HomeScreen) {
+                            popUpTo(Routes.OnboardingScreen) { inclusive = true }
+                        }
+                    },
+                    onValidate = { key ->
+                        apiKeyViewModel.saveApiKey(key)
+                        apiKeyViewModel.validateKey()
+                    }
+                )
             }
 
             composable<Routes.HomeScreen>{
@@ -94,6 +138,15 @@ fun NavApp() {
                     onBack = {
                         navController.popBackStack()
                     }
+                )
+            }
+
+            composable<Routes.ApiKeyScreen>{
+                ApiKeyScreen(
+                    state = TODO(),
+                    onSave = {  },
+                    onTest = {},
+                    onClear = {}
                 )
             }
 

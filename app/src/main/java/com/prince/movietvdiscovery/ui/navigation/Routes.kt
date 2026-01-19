@@ -9,8 +9,14 @@ sealed class Routes {
     object OnboardingScreen: Routes()
 
     @Serializable
+    object ApiKeyOnboardingScreen: Routes()
+
+    @Serializable
     object HomeScreen: Routes()
 
     @Serializable
     data class DetailsScreen(val titleId: Int): Routes()
+
+    @Serializable
+    object ApiKeyScreen: Routes()
 }
