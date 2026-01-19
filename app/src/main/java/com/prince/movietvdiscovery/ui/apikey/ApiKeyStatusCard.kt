@@ -80,7 +80,19 @@ fun ApiKeyStatusCard(state: ApiKeyUiState) {
             row2Label = "Message",
             row2Value = status.message
         )
-        is ApiKeyStatus.QuotaExceeded -> TODO()
+        is ApiKeyStatus.QuotaExceeded -> {
+            val total = status.quota.takeIf { it > 0 } ?: 1
+            StatusUiData(
+                indicatorColor = statusRed,
+                progress = 1f,
+                mainText = "0",
+                subText = "Requests Left",
+                row1Label = "Quota Used",
+                row1Value = "${status.quotaUsed} / ${status.quota}",
+                row2Label = "Resets In",
+                row2Value = "${status.resetInDays} days"
+            )
+        }
     }
 
     Card(

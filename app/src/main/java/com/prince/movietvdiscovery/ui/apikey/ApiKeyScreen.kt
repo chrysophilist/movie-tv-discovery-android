@@ -177,7 +177,12 @@ fun ApiKeyScreen(
                 )
             )
         }
-        if ((state.status is ApiKeyStatus.Missing || state.status is ApiKeyStatus.Invalid) && inputKey.isBlank() || state.status is ApiKeyStatus.Error) {
+        if (
+            state.status is ApiKeyStatus.Missing ||
+            state.status is ApiKeyStatus.Invalid ||
+            state.status is ApiKeyStatus.Error ||
+            state.status is ApiKeyStatus.QuotaExceeded
+            ) {
             item {
                 GetApiKeyCard(
                     onClick = { showGuideSheet = true }
