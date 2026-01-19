@@ -4,6 +4,7 @@ import com.prince.movietvdiscovery.ui.apikey.ApiKeyViewModel
 import com.prince.movietvdiscovery.ui.details.DetailsViewModel
 import com.prince.movietvdiscovery.ui.home.HomeViewModel
 import com.prince.movietvdiscovery.ui.navigation.RootViewModel
+import com.prince.movietvdiscovery.ui.onboarding.OnboardingViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -30,6 +31,12 @@ val viewModelModule = module {
 
     viewModel {
         RootViewModel(
+            onboardingDataStore = get()
+        )
+    }
+
+    viewModel {
+        OnboardingViewModel(
             onboardingDataStore = get()
         )
     }
