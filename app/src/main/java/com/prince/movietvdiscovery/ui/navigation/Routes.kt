@@ -18,5 +18,8 @@ sealed class Routes {
     data class DetailsScreen(val titleId: Int): Routes()
 
     @Serializable
-    object ApiKeyScreen: Routes()
+    object SettingsScreen: Routes()
+
+    @Serializable
+    object ApiKeyRoute: Routes()
 }

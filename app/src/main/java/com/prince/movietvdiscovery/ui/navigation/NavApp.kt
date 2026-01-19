@@ -20,13 +20,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.prince.movietvdiscovery.domain.model.AppStartDestination
-import com.prince.movietvdiscovery.ui.apikey.ApiKeyScreen
+import com.prince.movietvdiscovery.ui.apikey.ApiKeyRoute
 import com.prince.movietvdiscovery.ui.apikey.ApiKeyViewModel
 import com.prince.movietvdiscovery.ui.details.DetailsScreen
 import com.prince.movietvdiscovery.ui.home.HomeScreen
 import com.prince.movietvdiscovery.ui.onboarding.ApiKeyOnboardingScreen
 import com.prince.movietvdiscovery.ui.onboarding.OnboardingScreen
 import com.prince.movietvdiscovery.ui.onboarding.OnboardingViewModel
+import com.prince.movietvdiscovery.ui.settings.SettingsScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -128,7 +129,10 @@ fun NavApp() {
                     setScaffoldState = { scaffoldState = it },
                     showSnackbar = showSnackbar,
                     onNavigateToSettings = {
-                        navController.navigate(Routes.ApiKeyScreen)
+                        navController.navigate(Routes.ApiKeyRoute)
+                    },
+                    onOpenSettings = {
+                        navController.navigate(Routes.SettingsScreen)
                     }
                 )
             }
@@ -144,12 +148,24 @@ fun NavApp() {
                 )
             }
 
-            composable<Routes.ApiKeyScreen>{
-                ApiKeyScreen(
-                    state = TODO(),
-                    onSave = {  },
-                    onTest = {},
-                    onClear = {}
+            composable<Routes.SettingsScreen> {
+                SettingsScreen(
+                    onBack = {
+                        navController.popBackStack()
+                    },
+                    navigateToApiKey = {
+                        navController.navigate(Routes.ApiKeyRoute)
+                    },
+                    setScaffoldState = { scaffoldState = it }
+                )
+            }
+
+            composable<Routes.ApiKeyRoute>{
+                ApiKeyRoute(
+                    setScaffoldState = { scaffoldState = it },
+                    onBack = {
+                        navController.popBackStack()
+                    }
                 )
             }
 
