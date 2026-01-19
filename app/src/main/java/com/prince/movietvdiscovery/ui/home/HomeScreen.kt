@@ -96,6 +96,13 @@ fun HomeScreen(
             showSnackbar = showSnackbar
         )
     }
+
+    LaunchedEffect(isApiKeyMissing) {
+        if (!isApiKeyMissing) {
+            showSnackbar("API key added. Tap Retry to load content.")
+        }
+    }
+
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

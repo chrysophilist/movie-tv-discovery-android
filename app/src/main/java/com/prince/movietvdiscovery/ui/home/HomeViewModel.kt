@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.prince.movietvdiscovery.domain.model.HomeContent
 import com.prince.movietvdiscovery.domain.repository.Repository
 import com.prince.movietvdiscovery.domain.util.ApiKeyProvider
+import com.prince.movietvdiscovery.domain.util.AppError
 import com.prince.movietvdiscovery.domain.util.Result
 import com.prince.movietvdiscovery.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,6 +52,9 @@ class HomeViewModel(
                     _uiState.value = UiState.Success(result.data)
                 }
                 is Result.Error -> {
+                    if (result.error is AppError.MissingApiKey){
+                        _isApiKeyMissing.value = true
+                    }
                     _uiState.value = UiState.Error(result.error)
                 }
             }

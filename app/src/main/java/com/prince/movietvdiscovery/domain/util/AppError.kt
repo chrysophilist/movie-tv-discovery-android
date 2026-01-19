@@ -26,4 +26,8 @@ sealed class AppError(
     data class Unknown(
         override val message: String = "Unexpected error occurred"
     ) : AppError(message)
+
+    data class MissingApiKey(
+        override val message: String = "API key not added"
+    ) : AppError(message)
 }

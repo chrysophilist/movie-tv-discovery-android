@@ -10,6 +10,7 @@ import com.prince.movietvdiscovery.domain.model.TitleDetails
 import com.prince.movietvdiscovery.domain.model.TitleDetailsWithSources
 import com.prince.movietvdiscovery.domain.repository.Repository
 import com.prince.movietvdiscovery.domain.util.ApiKeyProvider
+import com.prince.movietvdiscovery.domain.util.AppError
 import com.prince.movietvdiscovery.domain.util.DispatcherProvider
 import com.prince.movietvdiscovery.domain.util.Result
 import kotlinx.coroutines.async
@@ -25,6 +26,13 @@ class RepositoryImpl (
 
     override suspend fun fetchHomeContent(): Result<HomeContent> =
         withContext(dispatcherProvider.io) {
+
+            // For HomeScreen
+            val apiKey = apiKeyProvider.getApiKey()
+            if (apiKey.isNullOrBlank()){
+                return@withContext Result.Error(AppError.MissingApiKey())
+            }
+
             try {
                 coroutineScope {
                     val movieDeferred = async {
@@ -90,6 +98,7 @@ class RepositoryImpl (
         }
 
 
+    // For Setting's ApiKeyScreen and ApiKeyOnboardingScreen
     override suspend fun validateApiKey(): ApiKeyStatus =
         withContext(dispatcherProvider.io) {
 
