@@ -8,6 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 private const val BASE_URL = "https://api.watchmode.com/v1/"
 
@@ -33,6 +34,9 @@ val networkModule = module {
         OkHttpClient.Builder()
             .addInterceptor(get<ApiKeyInterceptor>())
             .addInterceptor(get<HttpLoggingInterceptor>())
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
             .build()
     }
 
