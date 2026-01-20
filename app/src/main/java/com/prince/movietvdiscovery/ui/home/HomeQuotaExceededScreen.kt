@@ -84,7 +84,7 @@ fun HomeQuotaExceededScreen(
 
 
             Text(
-                text = "Monthly quota reached",
+                text = "Monthly quota exhausted",
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center

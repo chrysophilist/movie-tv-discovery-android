@@ -53,6 +53,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
+import com.prince.movietvdiscovery.ui.components.MyHorizontalDivider
 import com.prince.movietvdiscovery.ui.navigation.AppScaffoldState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -163,10 +164,7 @@ fun SectionHeader(text: String) {
     }
 }
 
-@Composable
-fun MyHorizontalDivider(){
-    HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.background)
-}
+
 
 @Composable
 fun SettingsItem(
