@@ -67,6 +67,7 @@ fun ApiKeyRoute(
     onBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var showMenu by remember { mutableStateOf(false) }
 
 
     LaunchedEffect(Unit) {
@@ -84,7 +85,7 @@ fun ApiKeyRoute(
                             }
                         },
                         actions = {
-                            IconButton( onClick = {},
+                            IconButton( onClick = { showMenu = true },
                                 modifier = Modifier.size(48.dp)
                             ) {
                                 Icon(
@@ -92,6 +93,7 @@ fun ApiKeyRoute(
                                     contentDescription = "Menu"
                                 )
                             }
+                            ApiKeyScreenMoreVertMenu(expanded = showMenu, onDismiss = { showMenu = false })
                         },
                         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                             containerColor = Color.Transparent,
