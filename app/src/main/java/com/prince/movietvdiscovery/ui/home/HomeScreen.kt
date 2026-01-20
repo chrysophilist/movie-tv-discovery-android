@@ -30,6 +30,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,6 +56,8 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isApiKeyMissing by viewModel.isApiKeyWasMissing.collectAsStateWithLifecycle()
     val isQuotaExceeded by viewModel.isQuotaExhausted.collectAsStateWithLifecycle()
+
+    val uriHandler = LocalUriHandler.current
 
     LaunchedEffect(Unit) {
         setScaffoldState(
@@ -95,7 +99,10 @@ fun HomeScreen(
     when {
         isApiKeyMissing -> HomeEmptyStateScreen(onAddApiKey = onNavigateToSettings)
 
-        isQuotaExceeded -> Toast.makeText(LocalContext.current, "Your monthly API quota exhausted", Toast.LENGTH_SHORT).show()
+        isQuotaExceeded -> HomeQuotaExceededScreen(
+            onOpenApiKeySettings = onNavigateToSettings,
+            onNavigateToWatchmode = { uriHandler.openUri("https://api.watchmode.com/requestApiKey/") }
+        )
 
         else -> HomeScreenContent(
             uiState = uiState,
@@ -105,8 +112,13 @@ fun HomeScreen(
         )
     }
 
-    LaunchedEffect(isApiKeyMissing) {
-        if (!isApiKeyMissing && uiState !is UiState.Loading && uiState !is UiState.Success) {
+    LaunchedEffect(isApiKeyMissing, uiState, isQuotaExceeded) {
+        if (
+            !isApiKeyMissing &&
+            !isQuotaExceeded &&
+            uiState !is UiState.Loading &&
+            uiState !is UiState.Success
+        ) {
             showSnackbar("API key added. Tap Retry to load content.")
         }
     }
