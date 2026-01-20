@@ -1,6 +1,8 @@
 package com.prince.movietvdiscovery.ui.home
 
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,8 +27,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -41,6 +46,7 @@ import com.prince.movietvdiscovery.domain.util.AppError
 import com.prince.movietvdiscovery.ui.common.RetrySection
 import com.prince.movietvdiscovery.ui.common.UiState
 import com.prince.movietvdiscovery.ui.navigation.AppScaffoldState
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -132,6 +138,26 @@ private fun HomeScreenContent(
     onRetry: ()-> Unit,
     showSnackbar: suspend (String) -> Unit
 ) {
+
+    var showLoadingText by remember { mutableStateOf(false) }
+    var showSlowNetworkHint by remember { mutableStateOf(false) }
+    LaunchedEffect(uiState is UiState.Loading) {
+        if (uiState is UiState.Loading) {
+            showLoadingText = false
+            showSlowNetworkHint = false
+
+            delay(2_000)
+            showLoadingText = true
+
+            delay(3_000)
+            showSlowNetworkHint = true
+        } else {
+            showLoadingText = false
+            showSlowNetworkHint = false
+        }
+    }
+
+
     val tabs = listOf("Movies", "TV Shows")
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
 
@@ -154,7 +180,42 @@ private fun HomeScreenContent(
 
         when (uiState) {
             is UiState.Loading -> {
-                HomeScreenShimmer()
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+
+                    HomeScreenShimmer()
+
+                    if (showLoadingText || showSlowNetworkHint) {
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .background(
+                                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
+                                    shape = MaterialTheme.shapes.medium
+                                )
+                                .padding(horizontal = 16.dp, vertical = 12.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            if (showLoadingText) {
+                                Text(
+                                    text = "Loading content",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+
+                            if (showSlowNetworkHint) {
+                                Text(
+                                    text = "This may take a bit longer on slow networks",
+                                    modifier = Modifier.padding(top = 4.dp),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                }
             }
 
             is UiState.Error -> {
