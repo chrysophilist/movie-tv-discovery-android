@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -35,7 +36,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -77,6 +80,8 @@ fun DetailsScreen(
 
     val containerColor = if (isSystemInDarkTheme()) {Color.Black} else { MaterialTheme.colorScheme.background }
 
+    var showMenu by remember { mutableStateOf(false) }
+
     LaunchedEffect(titleId) {
         viewModel.loadDetails(titleId)
     }
@@ -105,6 +110,25 @@ fun DetailsScreen(
                                         tint = Color.White
                                     )
                                 }
+                            }
+                        },
+                        actions = {
+                            Box(
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .background(
+                                        color = Color.Black.copy(alpha = 0.32f),
+                                        shape = CircleShape
+                                    )
+                            ) {
+                                IconButton(onClick = { showMenu = true }) {
+                                    Icon(
+                                        imageVector = Icons.Default.MoreVert,
+                                        contentDescription = "More options",
+                                        tint = Color.White
+                                    )
+                                }
+                                DetailsScreenMoreVertMenu(expanded = showMenu, onDismiss = {showMenu = false})
                             }
                         },
                         colors = TopAppBarDefaults.topAppBarColors(

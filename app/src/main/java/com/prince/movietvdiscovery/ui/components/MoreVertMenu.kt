@@ -3,6 +3,8 @@ package com.prince.movietvdiscovery.ui.components
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -28,7 +30,7 @@ fun MoreVertMenu(
         expanded = expanded,
         onDismissRequest = onDismiss,
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
-        modifier = Modifier.padding(horizontal = 8.dp),
+        modifier = Modifier.padding(horizontal = 8.dp).widthIn(min = 200.dp, max = 280.dp),
         shape = RoundedCornerShape(22.dp)
     ) {
         content(onDismiss)
