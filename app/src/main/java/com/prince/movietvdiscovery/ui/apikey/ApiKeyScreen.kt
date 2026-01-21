@@ -95,7 +95,7 @@ fun ApiKeyRoute(
                             }
                             ApiKeyScreenMoreVertMenu(expanded = showMenu, onDismiss = { showMenu = false })
                         },
-                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color.Transparent,
                             scrolledContainerColor = Color.Transparent
                         )

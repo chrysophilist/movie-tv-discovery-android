@@ -1,10 +1,11 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 
-    kotlin("plugin.serialization") version "2.2.20"
+    kotlin("plugin.serialization") version "2.3.0"
 }
 
 android {
@@ -41,7 +42,8 @@ android {
         }
 
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
 
             buildConfigField(
                 "String",
@@ -59,8 +61,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
     buildFeatures {
         compose = true
@@ -90,11 +94,6 @@ dependencies {
     implementation(libs.retrofit) // Retrofit Core: Handle networking
     implementation(libs.retrofit.converter.gson) // Parse API responses
 
-    // Rx
-    implementation(libs.rxkotlin) // Provides Kotlin-specific extension functions for RxJava
-    implementation(libs.rxandroid) // For scheduling tasks on the Android Main Thread (UI thread)
-    implementation(libs.adapter.rxjava3) // Convert Retrofit calls into RxJava Observables
-
     // Di
     implementation(libs.koin.android) // Core Koin for Android
     implementation(libs.koin.androidx.compose) // Koin for Compose
@@ -112,8 +111,6 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.mockk)
-    testImplementation(libs.rxjava)
-    testImplementation(libs.rxandroid)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
