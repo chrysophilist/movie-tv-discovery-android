@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.prince.movietvdiscovery"
+    namespace = "com.prince.cinemon"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.prince.movietvdiscovery"
+        applicationId = "com.prince.cinemon"
         minSdk = 29
         targetSdk = 36
         versionCode = 1
