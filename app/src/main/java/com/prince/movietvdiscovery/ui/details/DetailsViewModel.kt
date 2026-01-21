@@ -17,14 +17,17 @@ class DetailsViewModel (
     private val _uiState = MutableStateFlow<UiState<TitleDetailsWithSources>>(UiState.Loading)
     val uiState: StateFlow<UiState<TitleDetailsWithSources>> = _uiState
 
-    private var loadTitleId: Int? = null
+    private var loadedTitleId: Int? = null
 
-    fun loadDetails(titleId: Int) {
+    fun loadDetails(titleId: Int, force: Boolean = false) {
 
-        if (loadTitleId == titleId &&
-            _uiState.value is UiState.Success) return
+        // Prevent unnecessary reload for same title
+        if (!force &&
+            loadedTitleId == titleId &&
+            _uiState.value is UiState.Success
+        ) return
 
-        loadTitleId = titleId
+        loadedTitleId = titleId
 
         viewModelScope.launch {
             _uiState.value = UiState.Loading

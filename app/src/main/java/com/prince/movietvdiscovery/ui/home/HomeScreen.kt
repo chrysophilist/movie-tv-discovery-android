@@ -36,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -98,7 +97,7 @@ fun HomeScreen(
                 }
             )
         )
-//        viewModel.loadHome()
+        viewModel.loadHome()
     }
 
 
@@ -118,13 +117,8 @@ fun HomeScreen(
         )
     }
 
-    LaunchedEffect(isApiKeyMissing, uiState, isQuotaExceeded) {
-        if (
-            !isApiKeyMissing &&
-            !isQuotaExceeded &&
-            uiState !is UiState.Loading &&
-            uiState !is UiState.Success
-        ) {
+    LaunchedEffect(isApiKeyMissing) {
+        if ( isApiKeyMissing ) {
             showSnackbar("API key added. Tap Retry to load content.")
         }
     }
