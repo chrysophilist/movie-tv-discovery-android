@@ -37,10 +37,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.prince.movietvdiscovery.R
 import com.prince.movietvdiscovery.domain.model.HomeContent
 import com.prince.movietvdiscovery.domain.util.AppError
 import com.prince.movietvdiscovery.ui.common.RetrySection
@@ -75,7 +77,7 @@ fun HomeScreen(
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Text(
-                                    text = "Streamy",
+                                    text = stringResource(R.string.app_name ),
                                     fontSize = 32.sp,
                                     fontWeight = FontWeight.SemiBold,
                                     color = Color(0xFFd91f25)

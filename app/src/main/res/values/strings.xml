@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Movie &amp; TV Discovery</string>
+    <string name="app_name">Cinemon</string>
+    <string name="tagline">Discover movies &amp; shows</string>
 </resources>
